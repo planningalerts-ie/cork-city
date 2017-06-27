@@ -52,12 +52,12 @@ unset($got_cookie);
 $applications = json_decode($json_response);
 
 foreach ($applications->features as $application) {
-    echo 'Found ' . $application->attributes->PlanningAuthority . ': ' . $application->attributes->ApplicationNumber . '\n';
+    echo 'Found: ' . $application->attributes->ApplicationNumber . "\n";
     $council_reference = $application->attributes->ApplicationNumber;
     $info_url = $application->attributes->LinkAppDetails;
     $comment_url = $council_comment_url;
-    $lat = $application->attributes->geometry->y;
-    $lng = $application->attributes->geometry->x;
+    $lat = $application->geometry->y;
+    $lng = $application->geometry->x;
     $date_scraped = date($date_format);
     
     # Retrieve this application
