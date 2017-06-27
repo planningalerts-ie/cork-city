@@ -53,11 +53,11 @@ $applications = json_decode($json_response);
 
 foreach ($applications->features as $application) {
     echo 'Found: ' . $application->attributes->ApplicationNumber . "\n";
-    $council_reference = $application->attributes->ApplicationNumber;
-    $info_url = $application->attributes->LinkAppDetails;
+    $council_reference = trim($application->attributes->ApplicationNumber);
+    $info_url = trim($application->attributes->LinkAppDetails);
     $comment_url = $council_comment_url;
-    $lat = $application->geometry->y;
-    $lng = $application->geometry->x;
+    $lat = trim($application->geometry->y);
+    $lng = trim($application->geometry->x);
     $date_scraped = date($date_format);
     
     # Retrieve this application
@@ -98,21 +98,14 @@ foreach ($applications->features as $application) {
         'on_notice_to' => $on_notice_to
     );
     
-    print_r($application);
-    die();
+    $existingRecords = scraperwiki::select("* from data where `council_reference`='" . $application['council_reference'] . "'");
+    if (sizeof($existingRecords) == 0) {
+        # print_r ($application);
+        scraperwiki::save(array('council_reference'), $application);
+    } else {
+        print ("Skipping already saved record " . $application['council_reference'] . "\n");
+    }
 }
 
 
-//
-// // Write out to the sqlite database using scraperwiki library
-// scraperwiki::save_sqlite(array('name'), array('name' => 'susan', 'occupation' => 'software developer'));
-//
-// // An arbitrary query against the database
-// scraperwiki::select("* from data where 'name'='peter'")
-
-// You don't have to do things with the ScraperWiki library.
-// You can use whatever libraries you want: https://morph.io/documentation/php
-// All that matters is that your final data is written to an SQLite database
-// called "data.sqlite" in the current working directory which has at least a table
-// called "data".
 ?>
