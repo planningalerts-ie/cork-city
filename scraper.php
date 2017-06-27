@@ -13,12 +13,10 @@ $remote_uri = 'https://services3.arcgis.com/vgpNvkwrqKit2cbA/arcgis/rest/service
 
 $applications = json_decode(scraperwiki::scrape($remote_uri));
 
-// // Find something on the page using css selectors
-// $dom = new simple_html_dom();
-// $dom->load($html);
-// print_r($dom->find("table.list"));
-
-print_r($applications);
+foreach ($applications->features as $application) {
+  echo $application->attributes->PlanningAuthority . ": " . $application->attributes->ApplicationNumber ."\n";
+}
+#print_r($applications);
 
 //
 // // Write out to the sqlite database using scraperwiki library
