@@ -72,10 +72,10 @@ foreach ($applications->features as $application) {
     $parsethis->load($appdetails);
     
     $addresspath = $parsethis->find('#Development table',0)->find('tr',2)->find('td',0);
-    $address = trim($addresspath->plaintext);
+    $address = trim(html_entity_decode($addresspath->plaintext)ENT_QUOTES);
 
     $descriptionpath = $parsethis->find('#Development table',0)->find('tr',1)->find('td',0);
-    $description = trim($descriptionpath->plaintext);
+    $description = trim(html_entity_decode($descriptionpath->plaintext),ENT_QUOTES);
 
     $receivedpath = $parsethis->find('#Details table',0)->find('tr',4)->find('td',0);
     $date_received = date($date_format,strtotime(str_replace('/','-',trim($receivedpath->plaintext)))); # Don't use slashes -- US dateformat assumed if you do
