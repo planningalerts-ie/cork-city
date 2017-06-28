@@ -72,7 +72,7 @@ foreach ($applications->features as $application) {
     $parsethis->load($appdetails);
     
     $addresspath = $parsethis->find('#Development table',0)->find('tr',2)->find('td',0);
-    $address = trim(html_entity_decode($addresspath->plaintext)ENT_QUOTES);
+    $address = trim(html_entity_decode($addresspath->plaintext),ENT_QUOTES);
 
     $descriptionpath = $parsethis->find('#Development table',0)->find('tr',1)->find('td',0);
     $description = trim(html_entity_decode($descriptionpath->plaintext),ENT_QUOTES);
